@@ -48,15 +48,21 @@ def sintomas():
 	ejey7 = pd.DataFrame(dosis_ref_comp_uci, columns = ['dosis_ref_comp_uci']) 
 
 	
-	print(df.columns[8:])
+	#print(df.columns[8:].values)
 
 	fig = px.line(df, 
 		y = [ejey.sin_vac_uci, ejey2.una_dosis_uci, ejey3.dos_dosis_uci, ejey4.dos_dosis_comp_uci, ejey5.dosis_unica_uci, ejey6.dosis_unica_comp_uci,
 		 ejey7.dosis_ref_comp_uci],
-		x = df.semana_epidemiologica.values, 
+		x = range(1,75),
 		 title='Incidencia en UCI',
 		 #color=df.columns[8:].values, 
 		 )
-	#fig.show()
+	fig.add_annotation(
+		x = 1, y = -0.1, 
+		text = 'Fuente: Datos obtenidos desde el Ministerio de Ciencia: https://github.com/MinCiencia/Datos-COVID19.', 
+      	showarrow = False, xref='paper', yref='paper', 
+      	xanchor='right', yanchor='auto', xshift=0, yshift=-20
+		)
+	fig.show()
 
 sintomas()

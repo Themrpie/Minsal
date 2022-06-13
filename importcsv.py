@@ -7,6 +7,17 @@ import plotly.express as px
 def UCIEtario():
 	df = pd.read_csv('https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto9/HospitalizadosUCIEtario_T.csv')
 	fig = px.line(df, x = 'Grupo de edad', y = ['<=39','40-49', '50-59', '60-69','>=70'] , title='Hospitalizados en UCI por Grupo Etario')
+	fig.update_layout(
+		legend_title_text='Grupo etario',
+		xaxis_title='Fecha',
+		yaxis_title='Cantidad',
+		)
+	fig.add_annotation(
+		x = 1, y = -0.1, 
+		text = 'Fuente: Datos obtenidos desde el Ministerio de Ciencia: https://github.com/MinCiencia/Datos-COVID19.', 
+      	showarrow = False, xref='paper', yref='paper', 
+      	xanchor='right', yanchor='auto', xshift=0, yshift=-20
+		)
 	fig.show()
 
 def comorbilidades():	
@@ -90,5 +101,5 @@ def comorbilidades():
 
 
 
-comorbilidades()
-#UCIEtario()
+#comorbilidades()
+UCIEtario()

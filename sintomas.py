@@ -89,6 +89,12 @@ def sintomas():
 		 #color= df2['Comorbilidad'][11:],
 
 		 )
+	fig.add_annotation(
+		x = 1, y = -0.1, 
+		text = 'Fuente: Datos obtenidos desde el Ministerio de Ciencia: https://github.com/MinCiencia/Datos-COVID19.', 
+      	showarrow = False, xref='paper', yref='paper', 
+      	xanchor='right', yanchor='auto', xshift=0, yshift=-20
+		)
 	fig.show()
 
 sintomas()
