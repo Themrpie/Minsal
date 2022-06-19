@@ -1,33 +1,35 @@
 import pandas as pd
-import plotly.express as px
+import plotly.graph_objects as go
 import numpy as np
 
-def camasRegion():	
-	df = pd.read_csv('https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto52/Camas_UCI_t.csv')
-	regiones = df.columns.values[1:]
-	habilitadas = []
-	ocupadasCovid = []
-	ocupadasNoCovid = []
+def camasRegion():  
+    df = pd.read_csv('https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto52/Camas_UCI.csv')
+    region = "Atacama"
+    Regiones = df['Region'].drop_duplicates()
 
-	diferencia = []
-	region = 'Tarapacá'
+    for x in Regiones:
+    	print(x)
 
-	#for i in range(len(df)):				
-	#	if(df.values[0][i] == 'Camas UCI habilitadas'):
-	#		habilitadas.append(df.values[i]) 
-	#print(df.values[0][10])
+    target_region = df.query('Region == @region').drop('Region', axis=1).set_index('Serie').T
+    chart = []
+    for i in target_region:
+        if i != 'Camas base (2019)':  #or you can easily drop it from your dataset
+            chart += [go.Scatter(x=target_region.index,y=target_region[i], name=i, mode='lines')]
+            
+    fig = go.Figure(chart)
+    fig.update_layout(title={'text':f'Camas UCI por región: ({region})', 'x':.45},
+                      template='plotly_white', hovermode='x',
+                      legend_title_text='Estado de cama',
+                      xaxis_title="Días",
+                      yaxis_title="Cantidad de camas")
 
-	for i in range(len(df.columns)):
-		if df.columns.values[0][i] == region and df.values[1][i] == 'Camas UCI habilitadas':
-			for x in range(len(df) -1):
-				print(df.values[x][i])
-
-
-
-	#for i in range(len(df)):
-	#	print(df.values[i][1])
-	
-	#fig.show()
+    fig.add_annotation(
+        x = 1, y = -0.1, 
+        text = 'Fuente: Datos obtenidos desde el Ministerio de Ciencia: https://github.com/MinCiencia/Datos-COVID19/blob/master/output/producto52/Camas_UCI.csv', 
+        showarrow = False, xref='paper', yref='paper', 
+        xanchor='right', yanchor='auto', xshift=0, yshift=-20
+        )
+    fig.show()
 
 
 camasRegion()
